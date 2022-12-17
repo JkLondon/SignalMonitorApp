@@ -39,3 +39,4 @@ hs_err_pid*
 .cxx
 local.properties
 >>>>>>> 07acf2e (initial commit)
+/.idea/
