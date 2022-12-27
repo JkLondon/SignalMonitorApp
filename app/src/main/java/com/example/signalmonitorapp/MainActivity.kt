@@ -4,13 +4,11 @@ import android.os.Build
 import android.os.Bundle
 import android.telephony.PhoneStateListener
 import android.telephony.SignalStrength
-import android.telephony.TelephonyCallback
 import android.telephony.TelephonyManager
 import android.util.Log
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import android.widget.TextView
-import android.widget.Toast
 
 class SignalStrengthListener(private val context: Context, private val textView: TextView) : PhoneStateListener() {
 
@@ -19,13 +17,14 @@ class SignalStrengthListener(private val context: Context, private val textView:
         super.onSignalStrengthsChanged(signalStrength)
 
         // Get the signal strength as a percentage
-        val signalStrengthPercent = signalStrength.level
+        val gsmSignalStrengthPercent = signalStrength.level
+        val gsmSignalStrengthValue = signalStrength.gsmSignalStrength
 
         // Update the TextView with the signal strength
-        textView.text = "Signal strength: $signalStrengthPercent%"
+        textView.text = "gsm signal strength: $gsmSignalStrengthPercent% $gsmSignalStrengthValue"
 
         // Log the signal strength
-        Log.d("signal","Signal strength changed: $signalStrengthPercent%")
+        Log.d("signal","gsm signal strength changed: $gsmSignalStrengthPercent% $gsmSignalStrengthValue")
     }
 }
 
@@ -45,7 +44,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        startListeningForSignalStrength(this, )
+        val textView = TextView(this)
+        setContentView(textView)
+        startListeningForSignalStrength(this, textView)
     }
 
     override fun onStart() {
